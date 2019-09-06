@@ -9,7 +9,7 @@ before_install:
   - sudo apt-get install -y singularity-container
   - pip install --user sregistry[drive]
   - echo $GOOGLE_KEY > drive.json
-  - export SREGISTRY_GOOGLE_DRIVE_CREDENTIALS=${pwd}/drive.json
+  - export SREGISTRY_GOOGLE_DRIVE_CREDENTIALS=${PWD}/drive.json
 
 script:
   - travis_wait 60 sudo singularity build singularity_tractoflow.img singularity_tractoflow.def
