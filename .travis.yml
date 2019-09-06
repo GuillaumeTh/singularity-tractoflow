@@ -10,4 +10,4 @@ before_install:
 
 script:
   - travis_wait 30 sudo singularity build singularity_tractoflow.img singularity_tractoflow.def
-  - singularity exec singularity_tractoflow.img echo "Singularity test: Done"
+  - singularity exec singularity_tractoflow.img echo "Singularity test"
