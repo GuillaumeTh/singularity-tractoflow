@@ -7,9 +7,12 @@ before_install:
   - sudo apt-key adv --recv-keys --keyserver pool.sks-keyservers.net 2649A5A9 || { sudo wget -q -O- http://neuro.debian.net/_static/neuro.debian.net.asc | sudo apt-key add -; }
   - sudo apt-get update
   - sudo apt-get install -y singularity-container
-  - pip install --user sregistry[drive]
-  - echo $GOOGLE_KEY > drive.json
-  - export SREGISTRY_GOOGLE_DRIVE_CREDENTIALS=${PWD}/drive.json
+  - wget https://github.com/gdrive-org/gdrive/releases/download/2.1.0/gdrive-linux-x64
+  - mv gdrive-linux-x64 gdrive
+  - chmod +x gdrive
+  - mkdir gdrive-config
+  - echo $GOOGLE_KEY > gdrive-config/token_v2.json
+  - ./gdrive list -c gdrive-config
 
 script:
   - travis_wait 60 sudo singularity build singularity_tractoflow.img singularity_tractoflow.def
