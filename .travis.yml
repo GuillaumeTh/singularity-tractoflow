@@ -1,0 +1,13 @@
+dist: xenial
+
+sudo: true
+
+before_install:
+  - sudo wget -O- http://neuro.debian.net/lists/xenial.us-ca.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
+  - sudo apt-key adv --recv-keys --keyserver pool.sks-keyservers.net 2649A5A9 || { sudo wget -q -O- http://neuro.debian.net/_static/neuro.debian.net.asc | sudo apt-key add -; }
+  - sudo apt-get update
+  - sudo apt-get install -y singularity-container
+
+script:
+  - sudo singularity build singularity_tractoflow.img singularity_tractoflow.def
+  - singularity exec singularity_tractoflow.img echo "Singularity test: Done"
