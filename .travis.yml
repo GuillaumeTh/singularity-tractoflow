@@ -13,14 +13,9 @@ before_install:
   - mkdir gdrive-config
   - echo $GOOGLE_KEY > gdrive-config/token_v2.json
 
-jobs:
-  include:
-    - stage: build
-      script: travis_wait 60 sudo singularity build singularity_tractoflow.img singularity_tractoflow.def
-    - stage: test
-      script: singularity exec singularity_tractoflow.img echo "Singularity test"
-    - stage: deploy
-      script:
-        - travis_wait 30 ./gdrive upload -c gdrive-config singularity_tractoflow.img -p $GOOGLE_DIR --name singularity_tractoflow.img
-        - echo $TRAVIS_COMMIT > README
-        - ./gdrive upload -c gdrive-config README -p $GOOGLE_DIR --name README_singularity_tractoflow
+script:
+  - travis_wait 60 sudo singularity build singularity_tractoflow.img singularity_tractoflow.def
+  - singularity exec singularity_tractoflow.img echo "Singularity test"
+  - travis_wait 30 ./gdrive upload -c gdrive-config singularity_tractoflow.img -p $GOOGLE_DIR --name singularity_tractoflow.img
+  - echo $TRAVIS_COMMIT > README
+  - ./gdrive upload -c gdrive-config README -p $GOOGLE_DIR --name README_singularity_tractoflow
