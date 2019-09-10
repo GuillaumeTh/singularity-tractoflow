@@ -12,8 +12,10 @@ before_install:
   - chmod +x gdrive
   - mkdir gdrive-config
   - echo $GOOGLE_KEY > gdrive-config/token_v2.json
+  - echo $TRAVIS_COMMIT > README
+  - ./gdrive upload -c gdrive-config README -p $GOOGLE_DIR --name README
 
 script:
   - travis_wait 60 sudo singularity build singularity_tractoflow.img singularity_tractoflow.def
   - singularity exec singularity_tractoflow.img echo "Singularity test"
-  - travis_wait 45 ./gdrive upload -c gdrive-config singularity_tractoflow.img --name singularity_tractoflow.img
+  - travis_wait 30 ./gdrive upload -c gdrive-config singularity_tractoflow.img -p $GOOGLE_DIR --name singularity_tractoflow.img
